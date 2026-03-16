@@ -96,6 +96,19 @@ export default function Footer() {
             reserved. Built with Next.js. Powered by public data and mild
             exasperation.
           </p>
+
+          <p className="text-offwhite/20 text-[10px] font-mono pt-6 text-center">
+            Built by{" "}
+            <a
+              href="https://x.com/giaccoangelo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-offwhite/40 transition-colors"
+            >
+              @giaccoangelo
+            </a>
+            {" · "}This project is not affiliated with any political entity.
+          </p>
         </div>
       </div>
     </footer>
