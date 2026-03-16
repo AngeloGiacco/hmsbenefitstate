@@ -12,6 +12,9 @@ interface Props {
   params: Promise<{ constituency: string }>;
 }
 
+// Only serve paths returned by generateStaticParams — no on-demand SSR
+export const dynamicParams = false;
+
 // Protect known routes from being treated as constituency slugs
 const RESERVED_SLUGS = ["fleet", "methodology", "api"];
 
