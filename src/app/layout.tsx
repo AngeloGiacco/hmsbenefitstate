@@ -9,14 +9,14 @@ export const metadata: Metadata = {
     title: "HMS Benefit State",
     description:
       "UK welfare spending reimagined as a naval vessel registry. £334bn/year in displacement.",
-    images: [{ url: "/api/og", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "HMS Benefit State",
     description:
       "UK welfare spending reimagined as a naval vessel registry. £334bn/year in displacement.",
-    images: ["/api/og"],
+    images: ["/og-image.png"],
   },
 };
 
