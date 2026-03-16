@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://hmsbenefitstate.co.uk"),
   title: "HMS Benefit State",
   description:
     "The United Kingdom spends £334 billion per year on welfare — more than the entire Royal Navy has received since Trafalgar. HMS Benefit State is a naval vessel registry of UK welfare spending.",
