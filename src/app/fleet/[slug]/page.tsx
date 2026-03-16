@@ -7,6 +7,9 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+// Only serve paths returned by generateStaticParams — no on-demand SSR
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return welfareFleet.map((ship) => ({ slug: ship.slug }));
 }
