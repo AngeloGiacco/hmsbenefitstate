@@ -385,4 +385,382 @@ Defence expenditure:     House of Commons Library CBP-8175 (Oct 2025)
                          MOD Defence Departmental Resources 2024
                          NAO Equipment Plan Reports 2023-2024
 
-Fleet status:            MOD Parliamentary Answers (Jan 2026
+Fleet status:            MOD Parliamentary Answers (Jan 2026)
+                         Navy Lookout
+                         19FortyFive fleet analysis (Feb 2026)
+                         Wikipedia (Royal Navy, QE-class, Type 26)
+
+Ship costs:              BAE Systems Type 26 contract (Nov 2022: £4.2bn/5 ships)
+                         BAE Systems Type 26 batch 1 (Jul 2017: £3.7bn/3 ships)
+                         Type 31 programme (£1.25bn/5 ships)
+                         NAO Equipment Plan 2023-2033 (Astute, Dreadnought)
+                         QE-class outturn (~£7bn for 2 ships)
+
+Constituency data:       DWP Stat-Xplore (quarterly, by parliamentary constituency)
+                         NOMIS labour market statistics
+                         ONS mid-year population estimates
+
+MP contact details:      TheyWorkForYou API (members.parliament.uk fallback)
+
+Historical fleet size:   Navy Command / MOD annual reports
+                         IISS Military Balance (various years)
+                         Hansard records
+
+All welfare figures are nominal (not inflation-adjusted).
+Ship costs are approximate and based on most recent contract values.
+This site is not affiliated with the Ministry of Defence, DWP, or any political party.
+
+Built by [name]. Last updated: [date]. Data refresh: annually after PESA publication.
+
+"A ship without a logbook is just floating. We keep ours up to date."
+```
+
+---
+
+## Section 9: The Vanishing Fleet (Timeline)
+
+A horizontal scrolling timeline showing the collapse of Royal Navy ship numbers from the end of the Cold War to today. This is designed to be screenshotted on its own — it should work as a standalone image.
+
+**Design:** A single horizontal band, dark background, ship silhouettes arranged in formation for each year. As you scroll right (or swipe on mobile), ships disappear. The formations get thinner and sadder. The silhouettes that vanish should briefly flash red before fading out.
+
+**Data points:**
+
+```
+1990    ~150 escorts, submarines & major combatants
+        "Options for Change" review begins post-Cold War cuts
+
+1997    ~100 vessels
+        Strategic Defence Review
+
+2005    ~85 vessels
+        "Delivering Security in a Changing World" cuts
+
+2010    ~70 vessels
+        SDSR 2010: carriers cancelled then un-cancelled,
+        Harriers scrapped, Ark Royal decommissioned
+
+2015    ~63 vessels
+        SDSR 2015: Type 26 cut from 13 to 8
+
+2020    ~60 vessels
+        "Global Britain" announced. Fleet continues shrinking.
+
+2025    ~55 commissioned vessels (including those not operational)
+        Albion-class retired. No amphibious capability.
+        Both carriers in dock simultaneously.
+
+2026    ~50 available on paper. ~30 operational.
+        "The Royal Navy has more admirals than ships."
+```
+
+**End of timeline annotation:**
+
+> *"In 1990, the Royal Navy had enough escorts to run three carrier groups, patrol the Atlantic, and maintain a permanent presence in five theatres simultaneously. In 2026, it cannot crew a single carrier strike group. The welfare budget increased by £117 billion annually in the same period. These two facts are not unrelated."*
+
+**Technical note:** This should use CSS scroll-snap on mobile for clean decade stops. Each decade is a "page" you swipe through. On desktop, it's a smooth horizontal scroll within a fixed-height container with arrow key navigation.
+
+---
+
+## Section 10: Send to Your MP
+
+Appears immediately after the postcode lookup result. The user has just seen their constituency's HMS card. Now give them something to do with it.
+
+**Header:**
+
+> **SIGNAL YOUR MP**
+> *Your Member of Parliament represents [Constituency Name]. Let them know you've read the briefing.*
+
+**Mechanic:** One-tap button that opens the user's default email client with a pre-filled email. Uses `mailto:` link with TheyWorkForYou API to resolve MP name and email from the constituency.
+
+**Pre-filled email:**
+
+```
+To:      [mp.name]@parliament.uk
+Subject: HMS [Constituency Name] — a question about spending priorities
+
+Dear [MP Name],
+
+I recently came across data showing that [Constituency Name] receives
+approximately £[X]m per year in working-age benefits — equivalent to
+the cost of [naval comparison, e.g. "one Type 26 anti-submarine frigate
+every 2.4 years"].
+
+Meanwhile, the Royal Navy currently has both aircraft carriers in dock,
+only 3 of 6 destroyers operational, and 1 of 5 attack submarines
+available for service.
+
+I'm not writing to argue for benefit cuts. I'm writing to ask: does the
+current balance between welfare spending (£334bn/year) and naval
+capability (£15.5bn/year) reflect the UK's strategic needs, given the
+current global security environment?
+
+I'd welcome your thoughts.
+
+Yours sincerely,
+[Name]
+
+Data source: hmsbenefitstate.co.uk/[constituency-slug]
+```
+
+**Fallback:** If TheyWorkForYou API is down or MP email unavailable, link to `writetothem.com` with the postcode pre-filled. Always works.
+
+**Privacy:** No data stored. The email is composed entirely client-side. The site never sees the user's name or email address. Display this clearly.
+
+---
+
+## Section 11: Join the Crew (Email Capture)
+
+Positioned after the MP section, before the footer. Styled as a naval recruitment notice.
+
+```
+╔══════════════════════════════════════════════════╗
+║  JOIN THE CREW                                    ║
+║                                                   ║
+║  Receive dispatches from the Admiralty when        ║
+║  new data is published.                           ║
+║                                                   ║
+║  We update annually when HM Treasury releases      ║
+║  PESA figures. One email per year. No spam.        ║
+║  We are not a political campaign.                  ║
+║                                                   ║
+║  [_______your@email.com_______] [ENLIST]          ║
+║                                                   ║
+║  Current crew strength: [X] subscribers            ║
+╚══════════════════════════════════════════════════╝
+```
+
+**Technical:** Use Buttondown, Loops, or Resend for the email list. All are free at low volumes, have good APIs, and don't require a full marketing platform. Store nothing beyond email address. GDPR-compliant unsubscribe in every email.
+
+**Confirmation message after signup:**
+
+> *"You have been commissioned into the crew of HMS Benefit State. Your service number is #[sequential number]. Stand by for dispatches. Sincerely, The Admiralty."*
+
+---
+
+## OG Image Specifications
+
+Three templates, all rendered server-side via Next.js `ImageResponse` (or `@vercel/og`). All 1200×630px for Twitter/LinkedIn/WhatsApp unfurling.
+
+### Template 1: Homepage (static)
+
+```
+Background:  #0a0e17 (dark navy)
+Layout:      Ship silhouette in profile, top third, thin cyan lines (blueprint style)
+             Below: registry card text
+
+Text:
+  HMS BENEFIT STATE                    [large, monospace, off-white]
+  Displacement: £334,000,000,000       [monospace, cyan]
+  Crew: 5.5m claimants + 12.7m pensioners
+  Speed: +£117bn/year
+  Armament: None
+  Status: Permanently alongside
+
+  hmsbenefitstate.co.uk                [bottom right, small, grey]
+
+Font:        JetBrains Mono or IBM Plex Mono (both available via Google Fonts,
+             both render well in og:image)
+```
+
+### Template 2: Constituency (dynamic, one per postcode result)
+
+```
+Background:  #0a0e17
+Layout:      Smaller ship silhouette, upper left
+             Registry card text, centre
+
+Text:
+  HMS [CONSTITUENCY NAME]              [large, monospace, off-white, ALL CAPS]
+  Annual Displacement: £[X]m           [cyan]
+  Crew: [Y] working-age claimants
+  Could Build: [Z]× Type 26 Frigates every decade
+  Actually Builds: 0 warships
+
+  "What's your HMS?"                   [italic, small, grey]
+  hmsbenefitstate.co.uk                [bottom right]
+```
+
+### Template 3: Slider share (dynamic, based on slider percentage)
+
+```
+Background:  #0a0e17
+Layout:      Split — left side shows fleet silhouettes, right shows text
+
+Text:
+  REFIT ORDER                          [small, grey, uppercase]
+  REDIRECT [X]% OF THE WELFARE INCREASE [large, off-white]
+
+  Fleet gains: [description]           [cyan]
+  Welfare still up [Y]% since 2015     [red/coral]
+
+  hmsbenefitstate.co.uk                [bottom right]
+```
+
+**Image generation notes:**
+- Use `@vercel/og` with Satori — it supports a subset of CSS and renders to PNG at edge
+- Embed font files directly (JetBrains Mono woff2 is ~50KB)
+- Cache aggressively — constituency images won't change until data refresh
+- Test rendering on Twitter Card Validator, LinkedIn Post Inspector, and WhatsApp (they all handle og:image slightly differently)
+
+---
+
+## Pre-Written Social Copy (Launch Kit)
+
+Ready-to-copy posts for launch day. Provide these to early supporters, defence Twitter accounts, and anyone who helps spread the word.
+
+### Twitter/X
+
+**Post 1 (the hook):**
+```
+The UK spends £10,594 per second on welfare.
+
+It spends £491 per second on the Royal Navy.
+
+Both aircraft carriers are currently in dock.
+Half the fleet is broken.
+
+Enter your postcode. Find your HMS.
+
+hmsbenefitstate.co.uk
+```
+
+**Post 2 (the stat):**
+```
+The annual increase in UK welfare spending since 2015
+could buy 139 Type 26 frigates.
+
+Every year.
+
+The Royal Navy has ordered 8. Total.
+
+hmsbenefitstate.co.uk
+```
+
+**Post 3 (the slider):**
+```
+Redirect 3% of the welfare spending increase to the Navy.
+
+Result:
+→ Full fleet rebuild in 15 years
+→ 4 carriers, 12 submarines, 24 escorts
+→ Welfare still up 52% since 2015
+
+The welfare bar barely moves. The fleet transforms.
+
+hmsbenefitstate.co.uk
+```
+
+**Post 4 (the postcode hook):**
+```
+Every UK constituency has its own HMS.
+
+Mine is HMS [Constituency].
+Annual displacement: £[X]m.
+Could build one warship every [Y] years.
+Builds zero.
+
+What's yours?
+
+hmsbenefitstate.co.uk
+```
+
+**Post 5 (the timeline):**
+```
+Royal Navy ship count:
+
+1990: ~150
+2000: ~100
+2010:  ~70
+2020:  ~60
+2026:  ~30 operational
+
+Welfare spending in the same period:
+£150bn → £334bn
+
+hmsbenefitstate.co.uk
+```
+
+### WhatsApp / iMessage (shorter, more casual)
+
+```
+Have you seen this — you put your postcode in and it shows
+how much your area spends on benefits as if it were a warship.
+
+Mine is "HMS [Constituency]" 😂
+
+hmsbenefitstate.co.uk
+```
+
+```
+The UK spends £10,594 per second on welfare and £491
+on the entire Royal Navy. Both carriers are in dock.
+This site is mad: hmsbenefitstate.co.uk
+```
+
+---
+
+## Mobile-Specific Implementation Notes
+
+The site will be viewed primarily on phones (80%+ of viral social traffic). Every section must be designed mobile-first.
+
+### Postcode Tool
+- Input field uses `inputmode="text"` and `autocomplete="postal-code"` to trigger the right keyboard
+- Auto-focus the input on scroll-into-view (use Intersection Observer, not on page load — don't hijack focus before the user gets there)
+- Result card must fit in a single viewport without scrolling — no card taller than ~500px
+- Share buttons use the Web Share API (`navigator.share()`) on supported devices, falling back to copy-to-clipboard with a toast confirmation
+
+### Infinite Scroll (Shipyard)
+- Do NOT render all ship silhouettes on mount. Use Intersection Observer to progressively reveal rows as the user scrolls
+- Each "row" of ships is a single SVG with repeated `<use>` elements, not individual DOM nodes
+- Running counter is `position: sticky` at bottom of viewport
+- On slow connections, show a placeholder grid that fills in progressively
+
+### Slider Tool
+- Use a native `<input type="range">` with custom styling (not a JS-only slider) for best mobile touch behaviour
+- Fleet and welfare panels stack vertically on mobile (fleet on top, welfare below)
+- Ship silhouettes animate in/out with `will-change: transform` for GPU acceleration
+- Haptic feedback on snap points (1%, 3%, 5%, 10%) using `navigator.vibrate(10)` where supported
+
+### Fleet Timeline
+- Horizontal scroll with CSS `scroll-snap-type: x mandatory` and `scroll-snap-align: center` on each decade
+- Swipe indicator (animated chevron) on first visit, hidden after first interaction
+- Each decade is exactly `100vw` wide on mobile for clean snap stops
+- Dot indicators below show current decade position
+
+### General
+- All text must be readable at default mobile font size — no text smaller than 13px
+- Tap targets minimum 44×44px (Apple HIG)
+- Dark theme means OLED screens save battery — mention this nowhere but appreciate it silently
+- Test on: iPhone SE (small), iPhone 15 (standard), Samsung Galaxy S24 (Android), iPad Mini (tablet edge case)
+
+---
+
+## Data Pipeline & Refresh Process
+
+### Initial Build
+1. Export constituency-level benefit data from DWP Stat-Xplore (Housing Benefit, UC, PIP, ESA, JSA, Carer's Allowance — by parliamentary constituency)
+2. Process into `constituencies.json`: ~650 entries, each with `{ slug, name, total_benefits_annual, uc_claimants, pip_claimants, working_age_claimants, population }`
+3. Merge with TheyWorkForYou constituency → MP mapping
+4. Bundle as static JSON, served from CDN
+
+### Annual Refresh (post-PESA, typically July)
+1. Update welfare and defence time series from PESA tables
+2. Re-export DWP Stat-Xplore data
+3. Update fleet status from MOD sources
+4. Update ship costs if new contracts announced
+5. Redeploy. Send "dispatch" email to crew list.
+
+### Data Integrity
+- All constituency calculations should be reproducible from raw DWP exports
+- Include a `/methodology` page (linked from footer) with downloadable CSV of all data used
+- Version the data: display "Data vintage: PESA 2025 / DWP Q4 2024" in the footer
+
+---
+
+## Legal & Compliance
+
+- **Not a political campaign.** No party affiliation. No calls to vote for anyone. No lobbying registration required (UK threshold: paid lobbying of ministers/permanent secretaries).
+- **Crown Copyright data.** DWP and PESA data are published under the Open Government Licence v3.0. Attribute correctly. Ship photographs: use only MOD images released under OGL or Creative Commons.
+- **GDPR.** Email list requires explicit opt-in, unsubscribe in every email, data stored in EU/UK. Postcode tool processes data client-side only — no server-side storage of user postcodes.
+- **Defamation.** Every factual claim must be sourced. Sarcastic commentary is opinion and clearly presented as such. Don't name individual benefit claimants or imply fraud.
+- **Domain.** `.co.uk` is fine. No risk of confusion with a real government site (those use `.gov.uk`).
