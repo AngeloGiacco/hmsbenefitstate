@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-navy-900: #0a0e17;
+  --color-navy-800: #0f1523;
+  --color-navy-700: #162033;
+  --color-navy-600: #1e2d47;
+  --color-cyan-400: #22d3ee;
+  --color-cyan-300: #67e8f9;
+  --color-coral: #f87171;
+  --color-gold: #fbbf24;
+  --color-offwhite: #e8e6e3;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  --background: #0a0e17;
+  --foreground: #e8e6e3;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-mono);
+}
+
+/* Custom scrollbar for the naval theme */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0e17;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e2d47;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22d3ee;
+}
+
+/* Ticker pulse animation */
+@keyframes pulse-bar {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+.animate-pulse-bar {
+  animation: pulse-bar 2s ease-in-out infinite;
+}
+
+/* Blueprint grid background */
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Naval card border style */
+.naval-card {
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  background: rgba(15, 21, 35, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+/* Horizontal scroll for timeline */
+.timeline-scroll {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.timeline-scroll > * {
+  scroll-snap-align: center;
+}
