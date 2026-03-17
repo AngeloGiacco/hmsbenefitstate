@@ -4,11 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://hmsbenefitstate.co.uk"),
   title: {
-    default: "HMS Benefit State",
+    default: "HMS Benefit State — £334bn/year. Zero ships.",
     template: "%s — HMS Benefit State",
   },
   description:
-    "The United Kingdom spends £334 billion per year on welfare — more than the entire Royal Navy has received since Trafalgar. HMS Benefit State is a naval vessel registry of UK welfare spending.",
+    "The UK spends £334 billion per year on welfare. The Royal Navy gets £15.5 billion. Both aircraft carriers are in dock. See the numbers in real time.",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "HMS Benefit State",
+    title: "£334,000,000,000 — and not a single ship",
     description:
-      "UK welfare spending reimagined as a naval vessel registry. £334bn/year in displacement.",
+      "The UK spends £334bn/year on welfare. The Royal Navy gets £15.5bn. Both carriers are in dock. Watch the money flow in real time.",
     url: "https://hmsbenefitstate.co.uk",
     siteName: "HMS Benefit State",
     locale: "en_GB",
@@ -34,21 +34,21 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "HMS Benefit State — UK welfare spending reimagined as a naval vessel registry",
+        alt: "HMS Benefit State — £334bn per year on welfare. Zero ships at sea.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "HMS Benefit State",
+    title: "£334,000,000,000/year — and both carriers are in dock",
     description:
-      "UK welfare spending reimagined as a naval vessel registry. £334bn/year in displacement.",
+      "Watch UK welfare vs Royal Navy spending in real time. The numbers will make you seasick.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "HMS Benefit State — UK welfare spending reimagined as a naval vessel registry",
+        alt: "HMS Benefit State — £334bn per year on welfare. Zero ships at sea.",
       },
     ],
   },
@@ -78,11 +78,11 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased font-mono">
+      <body className="antialiased">
         {children}
       </body>
     </html>

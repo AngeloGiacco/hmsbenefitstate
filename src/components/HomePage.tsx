@@ -1,58 +1,52 @@
 "use client";
 
-import { useState } from "react";
-import LoadingScreen from "@/components/LoadingScreen";
-import HeroSection from "@/components/HeroSection";
-import FleetRegister from "@/components/FleetRegister";
+import HeroCounter from "@/components/HeroCounter";
+import TheScale from "@/components/TheScale";
+import TheRatio from "@/components/TheRatio";
 import ActualNavy from "@/components/ActualNavy";
+import VanishingFleet from "@/components/VanishingFleet";
 import Shipyard from "@/components/Shipyard";
 import RefitPlanner from "@/components/RefitPlanner";
 import PostcodeLookup from "@/components/PostcodeLookup";
-import VanishingFleet from "@/components/VanishingFleet";
 import Caveats from "@/components/Caveats";
-import JoinCrew from "@/components/JoinCrew";
+import ShareSection from "@/components/ShareSection";
 import Footer from "@/components/Footer";
 
 export default function HomePage() {
-  const [loaded, setLoaded] = useState(false);
-
   return (
-    <>
-      {!loaded && <LoadingScreen onComplete={() => setLoaded(true)} />}
+    <main className="bg-navy-900">
+      {/* Section 1: Live counter — THE viral hook */}
+      <HeroCounter />
 
-      {loaded && (
-        <main className="min-h-screen bg-navy-900 font-mono">
-          {/* Section 1: Hero — Ship Registry Card */}
-          <HeroSection />
+      {/* Section 2: The massive number */}
+      <TheScale />
 
-          {/* Section 2: Fleet Register — Sister Ships */}
-          <FleetRegister />
+      {/* Section 3: The 21:1 ratio */}
+      <TheRatio />
 
-          {/* Section 3: Meanwhile, in the Actual Navy */}
-          <ActualNavy />
+      {/* Section 4: The actual navy — 0/2 carriers */}
+      <ActualNavy />
 
-          {/* Section 9: The Vanishing Fleet (Timeline) */}
-          <VanishingFleet />
+      {/* Section 5: The vanishing fleet */}
+      <VanishingFleet />
 
-          {/* Section 4: The Shipyard — What £117bn Buys */}
-          <Shipyard />
+      {/* Section 6: What £117bn buys */}
+      <Shipyard />
 
-          {/* Section 5: Refit Planner (Slider Tool) */}
-          <RefitPlanner />
+      {/* Section 7: The refit planner */}
+      <RefitPlanner />
 
-          {/* Section 6: What's Your HMS? (Postcode Lookup) */}
-          <PostcodeLookup />
+      {/* Section 8: Your constituency */}
+      <PostcodeLookup />
 
-          {/* Section 7: The Caveats (Dry Dock) */}
-          <Caveats />
+      {/* Section 9: The fine print */}
+      <Caveats />
 
-          {/* Section 11: Join the Crew */}
-          <JoinCrew />
+      {/* Section 10: Share + signup */}
+      <ShareSection />
 
-          {/* Section 8: Footer — Sources & Ship's Log */}
-          <Footer />
-        </main>
-      )}
-    </>
+      {/* Footer */}
+      <Footer />
+    </main>
   );
 }

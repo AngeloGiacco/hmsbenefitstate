@@ -1,180 +1,116 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { timelineData } from "@/data/fleet";
 
 export default function VanishingFleet() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [prevVessels, setPrevVessels] = useState(timelineData[0].vessels);
-
   const maxVessels = timelineData[0].vessels;
 
-  const scrollToIndex = useCallback(
-    (index: number) => {
-      const clamped = Math.max(0, Math.min(index, timelineData.length - 1));
-      if (scrollRef.current) {
-        const panelWidth = scrollRef.current.offsetWidth;
-        scrollRef.current.scrollTo({
-          left: panelWidth * clamped,
-          behavior: "smooth",
-        });
-      }
-    },
-    []
-  );
-
-  // Handle scroll to track active panel
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const panelWidth = container.offsetWidth;
-      const newIndex = Math.round(container.scrollLeft / panelWidth);
-      if (newIndex !== activeIndex) {
-        setPrevVessels(timelineData[activeIndex].vessels);
-        setActiveIndex(newIndex);
-      }
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, [activeIndex]);
-
-  // Arrow key navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") {
-        scrollToIndex(activeIndex + 1);
-      } else if (e.key === "ArrowLeft") {
-        scrollToIndex(activeIndex - 1);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeIndex, scrollToIndex]);
-
-  const entry = timelineData[activeIndex];
-  const vanishedCount = Math.max(0, prevVessels - entry.vessels);
-
-  // Generate ship indicators for a given entry
-  const renderShips = (vessels: number, vanished: number) => {
-    const shipScale = Math.ceil(maxVessels / 30); // scale down for display
-    const displayCount = Math.ceil(vessels / shipScale);
-    const vanishedDisplay = Math.ceil(vanished / shipScale);
-    const totalDisplay = displayCount + vanishedDisplay;
-
-    return (
-      <div className="flex flex-wrap gap-1 justify-center my-6">
-        {Array.from({ length: totalDisplay }).map((_, i) => {
-          const isVanishing = i >= displayCount;
-          return (
-            <AnimatePresence key={i}>
-              {isVanishing ? (
-                <motion.span
-                  initial={{ opacity: 1, color: "#e8e6e3" }}
-                  animate={{ opacity: 0, color: "#f87171" }}
-                  transition={{ duration: 1.2, delay: i * 0.05 }}
-                  className="text-lg leading-none"
-                >
-                  &#9650;
-                </motion.span>
-              ) : (
-                <motion.span
-                  initial={{ opacity: 0.3 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-lg leading-none text-offwhite/70"
-                >
-                  &#9650;
-                </motion.span>
-              )}
-            </AnimatePresence>
-          );
-        })}
-      </div>
-    );
-  };
-
   return (
-    <section className="py-16">
-      <div className="px-4 max-w-3xl mx-auto mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-cyan-400 tracking-widest mb-2">
-          THE VANISHING FLEET
-        </h2>
-        <p className="text-offwhite/50 text-xs tracking-wider">
-          USE ARROW KEYS OR SWIPE TO NAVIGATE
-        </p>
-      </div>
-
-      <div
-        ref={scrollRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {timelineData.map((item, index) => (
-          <div
-            key={item.year}
-            className="flex-none w-full snap-center px-4"
-          >
-            <div className="max-w-3xl mx-auto border border-navy-600 bg-navy-800 p-8 min-h-[320px] flex flex-col justify-center">
-              <div className="text-center">
-                <div className="text-5xl md:text-6xl font-bold text-cyan-400 mb-2">
-                  {item.year}
-                </div>
-                <div className="text-3xl font-bold text-offwhite mb-1">
-                  {item.vessels}{" "}
-                  <span className="text-offwhite/50 text-lg">vessels</span>
-                </div>
-                {index > 0 && (
-                  <div className="text-coral text-sm mb-4">
-                    &minus;{timelineData[index - 1].vessels - item.vessels} since{" "}
-                    {timelineData[index - 1].year}
-                  </div>
-                )}
-
-                {renderShips(
-                  item.vessels,
-                  index === activeIndex ? vanishedCount : 0
-                )}
-
-                <p className="text-offwhite/60 text-sm mt-4 max-w-md mx-auto leading-relaxed">
-                  {item.event}
-                </p>
-              </div>
+    <section className="py-20 sm:py-32 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16 sm:mb-20"
+        >
+          <p className="text-offwhite/30 text-xs sm:text-sm tracking-[0.3em] uppercase mb-6 font-mono">
+            Royal Navy vessels
+          </p>
+          <div className="flex items-baseline justify-center gap-4 sm:gap-8">
+            <div>
+              <p className="text-offwhite font-black text-5xl sm:text-7xl md:text-8xl tracking-tighter font-sans">
+                150
+              </p>
+              <p className="text-offwhite/40 text-sm mt-1 font-mono">1990</p>
+            </div>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="w-12 sm:w-24 h-px bg-coral origin-left"
+            />
+            <div>
+              <p className="text-coral font-black text-5xl sm:text-7xl md:text-8xl tracking-tighter font-sans">
+                30
+              </p>
+              <p className="text-offwhite/40 text-sm mt-1 font-mono">2026</p>
             </div>
           </div>
-        ))}
-      </div>
+          <p className="text-offwhite/30 text-sm sm:text-base mt-6 font-light max-w-md mx-auto">
+            The fleet didn&apos;t vanish overnight. It was traded, review by review,
+            for things that win elections.
+          </p>
+        </motion.div>
 
-      {/* Dot indicators */}
-      <div className="flex justify-center gap-2 mt-6">
-        {timelineData.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => scrollToIndex(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-colors ${
-              index === activeIndex
-                ? "bg-cyan-400"
-                : "bg-navy-600 hover:bg-navy-600/80"
-            }`}
-            aria-label={`Go to ${timelineData[index].year}`}
-          />
-        ))}
-      </div>
+        {/* Timeline bars */}
+        <div className="space-y-3 sm:space-y-4">
+          {timelineData.map((entry, index) => {
+            const barWidth = (entry.vessels / maxVessels) * 100;
+            const prevVessels = index > 0 ? timelineData[index - 1].vessels : entry.vessels;
+            const lost = prevVessels - entry.vessels;
 
-      {/* End annotation */}
-      <div className="px-4 max-w-3xl mx-auto mt-8">
-        <p className="text-offwhite/40 text-xs font-mono leading-relaxed border-l-2 border-cyan-400/30 pl-4">
-          In 1990, the Royal Navy had 150 vessels and could credibly project
-          power globally. In 2026, it has roughly 30 — and more admirals than
-          ships. The welfare budget, meanwhile, has grown by £117bn per year.
-          The fleet didn&apos;t vanish overnight. It was traded, review by
-          review, for things that win elections.
-        </p>
+            return (
+              <motion.div
+                key={entry.year}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+              >
+                <div className="flex items-center gap-3 sm:gap-4">
+                  {/* Year */}
+                  <span className="text-offwhite/60 text-sm sm:text-base font-mono font-bold w-12 sm:w-14 shrink-0">
+                    {entry.year}
+                  </span>
+
+                  {/* Bar */}
+                  <div className="flex-1 h-8 sm:h-10 bg-offwhite/5 rounded overflow-hidden relative">
+                    <motion.div
+                      className="h-full bg-cyan-400/70 rounded"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${barWidth}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 + index * 0.08, ease: "easeOut" }}
+                    />
+                    <div className="absolute inset-y-0 right-3 flex items-center">
+                      <span className="text-offwhite/60 text-xs sm:text-sm font-mono font-bold">
+                        {entry.vessels}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Loss */}
+                  <span className="text-coral/60 text-xs font-mono w-10 sm:w-12 text-right shrink-0">
+                    {lost > 0 ? `−${lost}` : ""}
+                  </span>
+                </div>
+
+                {/* Event */}
+                <p className="text-offwhite/25 text-xs ml-16 sm:ml-18 mt-1 leading-relaxed">
+                  {entry.event}
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* More admirals than ships */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mt-12 sm:mt-16 border-t border-offwhite/10 pt-8"
+        >
+          <p className="text-offwhite/40 text-sm sm:text-base italic">
+            &ldquo;The Royal Navy has more admirals than ships.&rdquo;
+          </p>
+        </motion.div>
       </div>
     </section>
   );
