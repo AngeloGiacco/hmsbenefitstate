@@ -29,17 +29,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = sampleConstituencies.find((c) => c.slug === slug);
   if (!data) return {};
 
+  const ogImageUrl = `/api/og?type=constituency&name=${encodeURIComponent(data.name)}&displacement=${encodeURIComponent(formatMillions(data.totalBenefitsAnnual))}&crew=${encodeURIComponent(`${data.workingAgeClaimants.toLocaleString()} claimants`)}`;
+  const quip = getConstituencyQuip(data);
+
   return {
-    title: `HMS ${data.name} — HMS Benefit State`,
+    title: `HMS ${data.name}`,
     description: `HMS ${data.name}. Annual Displacement: ${formatMillions(data.totalBenefitsAnnual)}. Crew: ${data.workingAgeClaimants.toLocaleString()} working-age claimants. ${getNavalComparison(data.totalBenefitsAnnual)}.`,
     openGraph: {
-      title: `HMS ${data.name}`,
-      description: getConstituencyQuip(data),
+      title: `HMS ${data.name} — HMS Benefit State`,
+      description: quip,
+      type: "website",
       images: [
         {
-          url: `/api/og?type=constituency&name=${encodeURIComponent(data.name)}&displacement=${encodeURIComponent(formatMillions(data.totalBenefitsAnnual))}&crew=${encodeURIComponent(`${data.workingAgeClaimants.toLocaleString()} claimants`)}`,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
+          alt: `HMS ${data.name} — Vessel Assessment`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `HMS ${data.name} — HMS Benefit State`,
+      description: quip,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `HMS ${data.name} — Vessel Assessment`,
         },
       ],
     },

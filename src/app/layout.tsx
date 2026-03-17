@@ -3,21 +3,54 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hmsbenefitstate.co.uk"),
-  title: "HMS Benefit State",
+  title: {
+    default: "HMS Benefit State",
+    template: "%s — HMS Benefit State",
+  },
   description:
     "The United Kingdom spends £334 billion per year on welfare — more than the entire Royal Navy has received since Trafalgar. HMS Benefit State is a naval vessel registry of UK welfare spending.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   openGraph: {
     title: "HMS Benefit State",
     description:
       "UK welfare spending reimagined as a naval vessel registry. £334bn/year in displacement.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    url: "https://hmsbenefitstate.co.uk",
+    siteName: "HMS Benefit State",
+    locale: "en_GB",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "HMS Benefit State — UK welfare spending reimagined as a naval vessel registry",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "HMS Benefit State",
     description:
       "UK welfare spending reimagined as a naval vessel registry. £334bn/year in displacement.",
-    images: ["/og-image.png"],
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "HMS Benefit State — UK welfare spending reimagined as a naval vessel registry",
+      },
+    ],
   },
 };
 
