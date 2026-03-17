@@ -19,13 +19,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ship = welfareFleet.find((s) => s.slug === slug);
   if (!ship) return {};
 
+  const ogDescription = `${ship.class}. Displacement: ${ship.displacement}. Crew: ${ship.crew}.`;
+
   return {
-    title: `${ship.name} — HMS Benefit State`,
+    title: ship.name,
     description: `${ship.name}. ${ship.class}. Displacement: ${ship.displacement}. Crew: ${ship.crew}.`,
     openGraph: {
-      title: ship.name,
-      description: `${ship.class}. Displacement: ${ship.displacement}.`,
+      title: `${ship.name} — HMS Benefit State`,
+      description: ogDescription,
       type: "website",
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `${ship.name} — HMS Benefit State Fleet Registry`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${ship.name} — HMS Benefit State`,
+      description: ogDescription,
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `${ship.name} — HMS Benefit State Fleet Registry`,
+        },
+      ],
     },
   };
 }
