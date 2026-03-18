@@ -141,6 +141,8 @@ export interface ShipyardComparison {
   count: number;
   navyOrdered: string;
   navyNote: string;
+  description?: string;
+  specs?: { length: string; crew: string; cost: string; role: string };
 }
 
 export const shipyardComparisons: ShipyardComparison[] = [
@@ -149,18 +151,24 @@ export const shipyardComparisons: ShipyardComparison[] = [
     count: 139,
     navyOrdered: "8",
     navyNote: "The Royal Navy has ordered 8. Total. Ever.",
+    description: "A 149-metre anti-submarine warfare frigate. Carries a helicopter, torpedoes, cruise missiles, and a 5-inch gun. Hunts submarines so aircraft carriers don't get sunk.",
+    specs: { length: "149.9m", crew: "157", cost: "£840m each", role: "Anti-submarine warfare" },
   },
   {
     shipType: "Astute-class Submarines",
     count: 73,
     navyOrdered: "7",
     navyNote: "The Royal Navy has 7. One works.",
+    description: "A nuclear-powered attack submarine. Can stay submerged indefinitely, fire Tomahawk cruise missiles at targets 1,000 miles away, and listen to shipping across entire oceans.",
+    specs: { length: "97m", crew: "98", cost: "£1.6bn each", role: "Nuclear attack submarine" },
   },
   {
     shipType: "Queen Elizabeth-class Carriers",
     count: 33,
     navyOrdered: "2",
     navyNote: "The Royal Navy has 2. Both are in dock.",
+    description: "The largest warship ever built for the Royal Navy. 65,000 tonnes, 280 metres long. Carries up to 40 F-35 stealth fighters. Projects power anywhere on Earth — when it works.",
+    specs: { length: "280m", crew: "1,600", cost: "£3.5bn each", role: "Aircraft carrier" },
   },
 ];
 

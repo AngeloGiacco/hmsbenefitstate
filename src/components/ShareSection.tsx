@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function ShareSection() {
   const shareText =
-    "The UK spends £334bn/year on welfare. The Royal Navy gets £15.5bn. Both aircraft carriers are in dock. See the numbers in real time:";
+    "£334bn on welfare. £15.5bn for the Navy. Both carriers in dock. See why:";
   const shareUrl = "https://hmsbenefitstate.co.uk";
 
   const handleShareX = () => {

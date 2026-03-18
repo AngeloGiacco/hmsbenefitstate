@@ -49,6 +49,44 @@ function ShipGrid({ comparison, index }: { comparison: typeof shipyardComparison
       <p className="text-offwhite/30 text-sm font-mono mt-4">
         {comparison.navyNote}
       </p>
+
+      {/* Ship description card */}
+      {comparison.description && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-8 border border-cyan-400/10 rounded-lg p-5 sm:p-6 max-w-lg mx-auto text-left bg-navy-800/50"
+        >
+          <p className="text-cyan-400/50 text-xs tracking-[0.2em] uppercase mb-2 font-mono">
+            What is a {comparison.shipType.replace(/s$/, "")}?
+          </p>
+          <p className="text-offwhite/50 text-sm leading-relaxed mb-4">
+            {comparison.description}
+          </p>
+          {comparison.specs && (
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs font-mono">
+              <div className="flex justify-between">
+                <span className="text-offwhite/25">Length</span>
+                <span className="text-cyan-400/60">{comparison.specs.length}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-offwhite/25">Crew</span>
+                <span className="text-cyan-400/60">{comparison.specs.crew}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-offwhite/25">Cost</span>
+                <span className="text-coral/60">{comparison.specs.cost}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-offwhite/25">Role</span>
+                <span className="text-cyan-400/60">{comparison.specs.role}</span>
+              </div>
+            </div>
+          )}
+        </motion.div>
+      )}
     </motion.div>
   );
 }
