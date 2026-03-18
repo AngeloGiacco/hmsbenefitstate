@@ -7,33 +7,53 @@ interface ConstituencyResult {
   name: string;
   annualDisplacement: string;
   crew: string;
-  ucClaimants: string;
+  ucHouseholds: string;
   couldBuild: string;
   quip: string;
+  dataSource: string;
 }
-
-const MOCK_RESULT: ConstituencyResult = {
-  name: "PORTSMOUTH SOUTH",
-  annualDisplacement: "£482,000,000",
-  crew: "38,400 working-age claimants",
-  ucClaimants: "22,100 households",
-  couldBuild: "0.58 Type 26 Frigates per year",
-  quip: "Enough to keep a frigate in dry dock. Which is where they all are anyway.",
-};
 
 export default function PostcodeLookup() {
   const [postcode, setPostcode] = useState("");
   const [result, setResult] = useState<ConstituencyResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!postcode.trim()) return;
     setLoading(true);
-    setTimeout(() => {
-      setResult(MOCK_RESULT);
+    setError(null);
+    setResult(null);
+
+    try {
+      const res = await fetch("/api/constituency", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postcode: postcode.trim() }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Something went wrong. Please try again.");
+        return;
+      }
+
+      setResult({
+        name: data.name.toUpperCase(),
+        annualDisplacement: `£${Math.round(data.totalBenefitsAnnual / 1_000_000).toLocaleString("en-GB")},000,000`,
+        crew: `${data.workingAgeClaimants.toLocaleString("en-GB")} working-age claimants`,
+        ucHouseholds: `${data.ucHouseholds.toLocaleString("en-GB")} households`,
+        couldBuild: data.navalComparison,
+        quip: data.quip,
+        dataSource: data.dataSource,
+      });
+    } catch {
+      setError("Could not connect. Please check your internet and try again.");
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   const shareText = result
@@ -103,6 +123,20 @@ export default function PostcodeLookup() {
           </div>
         </form>
 
+        {/* Error */}
+        <AnimatePresence>
+          {error && (
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="text-red-400 text-sm text-center mb-6"
+            >
+              {error}
+            </motion.p>
+          )}
+        </AnimatePresence>
+
         {/* Result */}
         <AnimatePresence>
           {result && (
@@ -128,7 +162,7 @@ export default function PostcodeLookup() {
                   </div>
                   <div className="flex justify-between items-baseline">
                     <span className="text-offwhite/40">UC Households</span>
-                    <span className="text-offwhite">{result.ucClaimants}</span>
+                    <span className="text-offwhite">{result.ucHouseholds}</span>
                   </div>
                   <div className="flex justify-between items-baseline border-t border-offwhite/10 pt-3 mt-3">
                     <span className="text-offwhite/40">Could build</span>
@@ -138,6 +172,10 @@ export default function PostcodeLookup() {
 
                 <p className="text-offwhite/30 text-xs italic mt-4 font-mono">
                   &ldquo;{result.quip}&rdquo;
+                </p>
+
+                <p className="text-offwhite/15 text-[10px] mt-3 font-mono">
+                  Source: {result.dataSource}
                 </p>
               </div>
 
@@ -164,7 +202,7 @@ export default function PostcodeLookup() {
               </div>
 
               <button
-                onClick={() => { setResult(null); setPostcode(""); }}
+                onClick={() => { setResult(null); setPostcode(""); setError(null); }}
                 className="mt-4 text-offwhite/30 text-xs tracking-wider hover:text-offwhite/60 transition-colors w-full text-center"
               >
                 Try another postcode
